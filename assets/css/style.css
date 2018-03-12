@@ -1,3 +1,18 @@
+body {
+    background: black;
+    font-family: 'bangers', cursive;
+}
+
+.container {
+    color: whitesmoke;
+}
+
+#backgroundImg {
+    width: 60%;
+    height: auto;
+    float: left;
+}
+
 /*footer*/
 
 footer {
@@ -10,7 +25,6 @@ footer {
     font-size: 18px;
     text-align: center;
 }
-
 
 .cointainer {
     background-color: #81d8d0;
@@ -28,4 +42,32 @@ footer {
     /* Animation */
     opacity: 1;
     border-radius: 75%;
+}
+
+#display {
+    float: left;
+    font-family: 'bangers', cursive;
+    font-size: 30px;
+    color: red;
+    /* Typography */
+    text-align: center;
+    /* Visual */
+    background: white;
+}
+
+#wrapper {
+    /* Box-model */
+    width: 400px;
+    /* Typography */
+    text-align: left;
+    /* Positioning */
+    margin: 50px auto 0;
+    font-size: 24px;
+}
+
+.qbox {
+    color: red;
+    float: left;
+    font-family: 'bangers', cursive;
+    font-size: 30px;
 }
