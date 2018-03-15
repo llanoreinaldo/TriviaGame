@@ -1,117 +1,148 @@
-//Game Variables
 
-var playGame = 0,
-    wins = 0,
-    losses = 0,
-    randomGame = '',
-    //Audio Files
+//Sets Trivia Game Function 
+$.fn.trivia = function () {
+    
+    //Sets Global Variables
+    var th = this;
+    th.userSelection = null;
+    th.answers = {
+        correct: 0,
+        incorrect: 0
+    };
+    th.images = null;
+    th.count = 30;
+    th.current = 0;
 
-    oneAudio = new Audio('assets/sounds/fridaythe13th.mp3'),
-    twoAudio = new Audio('assets/sounds/Jaws-theme-song.mp3'),
-    threeAudio = new Audio('assets/sounds/Halloween Theme.mp3'),
-    backImg = ["background1", "background2", "background3"],
-    themeSong = ["fridaythe13th", "jaws-theme-song", "Halloween Theme"];
+    //Sets Questions, Answers, and identifies Correct choice.
+    th.questions = [{
+            question: "In what state was Friday the 13th filmed?",
+            choices: ["Connecticut", "New York", "New Jersey", "Pennsylvania"],
+            images: ["assets/images/friday13th1.gif"],
+            correct: 2
+        },
+        {
+            question: "The film made $39.75 million dollars on a budget of how much?",
+            choices: ["$350,000 dollars", "$450,000 dollars", "$550,000 dollars", "$650,000 dollars"],
+            images: ["assets/images/friday13th2.gif"],
+            correct: 2
+        },
+        {
+            question: "What was the real name of the camp that the movie was filmed at?",
+            choices: ["Camp Crystal Lake", " Camp No-Be-Bos-Co", "Camp Tiki Taka", "Camp Dudley"],
+            images: ["assets/images/friday13th3.gif"],
+            correct: 1
+        },
+        {
+            question: "What famous American singer's played the character of Bill?",
+            choices: ["Bing Crosby", "Burl Ives", "Johnny Mathis", "Perry Cuomo"],
+            images: ["assets/images/friday13th4.gif"],
+            correct: 0
+        },
+        {
+            question: "How long into the movie is it before Jason is actually mentioned?",
+            choices: ["1 hour and 1 mins", "1 hour and 6 mins", "1 hour and 11 mins", "1 hour and 16 mins"],
+            image: ["assets/images/friday13th5.gif"],
+            correct: 3
+        }
+    ];
+
+    //Recalls the question
+      th.ask = function () {
+
+        if (th.questions[th.current]) {
+            $('#timer').html("Time till dead: " + "00:" + th.count + " seconds");
+            $('#question_div').html(th.questions[th.current].question);
+            var choicesArr = th.questions[th.current].choices;
+            var buttonsArr = [];
+
+            for (var i = 0; i < choicesArr.length; i++) {
+                var button = $('<button>');
+                button.text(choicesArr[i]);
+                button.attr('data-id', i);
+                $('#choices_div').append(button);
+            }
+            window.triviaCounter = setInterval(th.timer, 1000);
+        } else {
+            $('body').append($('<div />', {
+                text: 'Unanswered: ' + (
+                    th.questions.length - (th.answer.correct + th.answers.incorrect)),
+                class: 'result'
+            }));
+            $('start_button').text('Restart').appendTo('body').show();
+        }
+    };
+
+    th.timer = function () {
+        th.count--;
+        if (th.count <= 0) {
+            setTimeout(function () {
+                th.nextQuestion();
+            });
+        } else {
+            $('#timer').html('Time till dead: ' + "00:" + th.count + " seconds");
+        }
+    };
+
+    th.nextQuestion = function () {
+        th.current++;
+        clearInterval(window.triviaCounter);
+        th.count = 30;
+        $('#timer').html("");
+        setTimeout(function () {
+            th.cleanUp();
+            th.ask();
+        }, 1000)
+    };
+    th.cleanUp = function () {
+        $('div[id]').each(function (item) {
+            $(this).html('');
+        });
+        $('.correct').html('Correct answers: ' + th.answers.correct);
+        $('.incorrect').html('Incorrect answers: ' + th.answers.incorrect);
+    };
+    th.answer = function (correct) {
+        var string = correct ? 'correct' : 'incorrect';
+        th.answers[string]++;
+        $('.' + string).html(string + ' answers: ' + th.answers[string]);
+    };
+    return th;
+};
+var Trivia;
+
+$("#start_button").click(function () {
+    $(this).hide();
+    $('.result').remove();
+    $('div').html('');
+    Trivia = new $(window).trivia();
+    Trivia.ask();
+});
+
+$('#choices_div').on('click', 'button', function (e) {
+    var userSelection = $(this).data("id"),
+        th = Trivia || $(window).trivia(),
+        index = th.questions[th.current].correct,
+        correct = th.questions[th.current].choices[index];
+
+    if (userSelection !== index) {
+        $('#choices_div').text("Wrong Answer! The correct answer was: " + correct);
+        th.answer(false);
+    } else {
+        $('#choices_div').text("Correct!!! The correct answer was: " + correct);
+        th.answer(true);
+    }
+    th.nextQuestion();
+});
+
+
+
+//FOR DEVELOPING A MULTI-THEMED GAME
+//Audio Files
+//  oneAudio = new Audio('assets/sounds/fridaythe13th.mp3'),
+//   twoAudio = new Audio('assets/sounds/Jaws-theme-song.mp3'),
+// threeAudio = new Audio('assets/sounds/Halloween Theme.mp3'),
+//   backImg = ["background1", "background2", "background3"],
+// themeSong = ["fridaythe13th", "jaws-theme-song", "Halloween Theme"];
 
 //DOM Declations for hooking into
-var DOMthemesong = document.getElementById('themesong'),
-    DOMbackImg = document.getElementById('backgroundImg');
-
-//Starts Game on web page loading
-
-function startGame() {
-    window.onload();
-
-    for (var i = 0; i < backImg.length; i++) {
-
-        x = backImg[i];
-        DOMbackImg.innerHTML.src = "./assets/images/" + x + ".jpg";
-    }
-
-    for (var i = 0; i < themeSong.length; i++) {
-        y = themeSong[i];
-        DOMthemesong.innerHTML.src = "./assets/sounds/" + y + ".mp3";
-    }
-
-}
-
-
-//GAME TIMER (SOLUTION)
-// =============================
-
-// This code will run as soon as the page loads
-window.onload = function () {
-    // $("#reset").on("click", gameTimer.replay);
-    gameTimer.start();
-    //Random Game Play 
-
-    if (gameTimer.t === 0) {
-        gameTimer.stop()
-    }
-   };
-
-//  Variable that will hold our setInterval that runs the game timer
-var intervalId;
-
-// prevents the clock from being sped up unnecessarily
-var clockRunning = false;
-
-// Our game timer object
-var gameTimer = {
-
-    time: 30,
-
-    replay: function () {
-
-        gameTimer.time = 30;
-
-
-        // DONE: Change the "display" div to "30 seconds."
-        $("#display").text("30 seconds");
-
-    },
-    start: function () {
-
-        // DONE: Use setInterval to start the count here and set the clock to running.
-        if (!clockRunning) {
-            intervalId = setInterval(gameTimer.count, 1000);
-            clockRunning = true;
-        }
-    },
-    stop: function () {
-
-        // DONE: Use clearInterval to stop the count here and set the clock to not be running.
-        clearInterval(intervalId);
-        clockRunning = false;
-    },
-
-    count: function () {
-
-        // DONE: decrement time by 1, remember we cant use "this" here.
-        gameTimer.time--;
-
-        // DONE: Get the current time, pass that into the gameTimer.timeConverter function,
-        //       and save the result in a variable.
-        var converted = gameTimer.timeConverter(gameTimer.time);
-        console.log(converted);
-
-        // DONE: Use the variable we just created to show the converted time in the "display" div.
-        $("#display").text(converted);
-    },
-    timeConverter: function (t) {
-
-        var minutes = Math.floor(t / 60);
-        var seconds = t - (minutes * 60);
-
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-
-        if (minutes === 0) {
-            minutes = "00";
-        } else if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-
-        return minutes + ":" + seconds;
-    }
-};
+// var DOMthemesong = document.getElementById('themesong'),
+//     DOMbackImg = document.getElementById('backgroundImg');

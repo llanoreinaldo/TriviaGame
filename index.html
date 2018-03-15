@@ -12,8 +12,7 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Bangers|Covered+By+Your+Grace|Flavors|Luckiest+Guy|Rock+Salt" rel="stylesheet">
 
-     <!-- Optional JavaScript -->
-     <script src="./assets/javascript/app.js"></script>
+
     <title>Trivia Game</title>
 </head>
 
@@ -25,31 +24,29 @@
         <div class='col'>
             <img id='backgroundImg' src="assets/images/background1.jpg">
         </div>
-    </div>
-    <div class="container">
-        <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class='col'>
+                    <div class="text-center">
+                        <h1>Legendary Horror Movies</h1>
+                        <h2>Trivia Game</h2>
+                    </div>
+                </div>
+            </div>
             <div class='col'>
-                <div class="text-center">
-                    <h1>Legendary Horror Movies</h1>
-                    <h2>Trivia Game</h2>
-                    <hr>
-                    <div id="wrapper">
-                          <div id="display">00:00</div>
+                <div class="row display">
+                    <div class='col'>
+                        <button id="start_button">START GAME</button>
+                        <div id="timer"></div>
+                        <div id="question_div"></div>
+                        <div id="choices_div"></div>
+                        <div class="correct "></div>
+                        <div class="incorrect"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col qbox">
-                    <br>
-                    <p>text for game here</p>
-                </div>
-            </div>
-        </div>
     </div>
-    </div>
-
 
     <footer>
         <div class="container">
@@ -60,16 +57,18 @@
     </footer>
 
 
-   
+
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-
+    <!-- Optional JavaScript -->
+    <script src="./assets/javascript/app.js"></script>
 </body>
 
 </html>
