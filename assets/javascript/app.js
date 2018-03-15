@@ -72,6 +72,7 @@ $.fn.trivia = function () {
         }
     };
 
+    //Sets Game Timer Function for Clock Countdown logic
     th.timer = function () {
         th.count--;
         if (th.count <= 0) {
@@ -83,6 +84,7 @@ $.fn.trivia = function () {
         }
     };
 
+    //Sets Next Question Function Logic
     th.nextQuestion = function () {
         th.current++;
         clearInterval(window.triviaCounter);
@@ -93,6 +95,8 @@ $.fn.trivia = function () {
             th.ask();
         }, 1000)
     };
+
+    //Sets logic for when user runs out the game timer
     th.cleanUp = function () {
         $('div[id]').each(function (item) {
             $(this).html('');
@@ -100,6 +104,8 @@ $.fn.trivia = function () {
         $('.correct').html('Correct answers: ' + th.answers.correct);
         $('.incorrect').html('Incorrect answers: ' + th.answers.incorrect);
     };
+
+    //Sets logic for when correct answer is picked
     th.answer = function (correct) {
         var string = correct ? 'correct' : 'incorrect';
         th.answers[string]++;
@@ -107,6 +113,7 @@ $.fn.trivia = function () {
     };
     return th;
 };
+
 var Trivia;
 
 $("#start_button").click(function () {
@@ -117,6 +124,7 @@ $("#start_button").click(function () {
     Trivia.ask();
 });
 
+//Function to register user choice during trivia game
 $('#choices_div').on('click', 'button', function (e) {
     var userSelection = $(this).data("id"),
         th = Trivia || $(window).trivia(),
