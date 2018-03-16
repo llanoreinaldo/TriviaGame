@@ -1,11 +1,13 @@
 //Variables that target the HTML divs in JQuery with the matching id's
-var timerDiv = $("timer");
-var questionsDiv = $("#question_div");
-var choicesDiv = $("#choices_div");
-var correctDiv = $("#correct");
-var incorrectDiv = $("#incorrect");
-var counter = 0;
-var count = 30;
+var startGame = $("#start_button"),
+    timerDiv = $("#timer"),
+    questionsDiv = $("#question_div"),
+    choicesDiv = $("#choices_div"),
+    correctDiv = $("#correct"),
+    incorrectDiv = $("#incorrect"),
+    aboveCopy = $("#abovecopy"),
+    counter = 0,
+    count = 30;
 
 //Game Question Array
 var questionsList = [{
@@ -40,15 +42,88 @@ var questionsList = [{
     }
 ];
 
-
-$("#start_button").click(function () {
+startGame.click(function () {
     $(this).hide();
     displayQuestions();
 });
 
+// GAMEWATCH ACTIVITY (SOLUTION)
+// =============================
+
+//  Variable that will hold our setInterval that runs the stopwatch
+var intervalId;
+
+//prevents the clock from being sped up unnecessarily
+var clockRunning = false;
+
+// Our stopwatch object
+var gameWatch = {
+
+    time: 30,
+
+    reset: function () {
+
+        gameWatch.time = 30;
+
+        //Changes the "display" div to "00:30."
+        timerDiv.text("00:30");
+
+    },
+    start: function () {
+
+        // DONE: Use setInterval to start the count here and set the clock to running.
+        if (!clockRunning) {
+            intervalId = setInterval(gameWatch.count, 1000);
+            clockRunning = true;
+        }
+    },
+
+    stop: function () {
+
+        // Uses clearInterval to stop the count here and set the clock to not be running.
+        clearInterval(intervalId);
+        clockRunning = false;
+    },
+    count: function () {
+
+        // DONE: increment time by 1, remember we cant use "this" here.
+        gameWatch.time--;
+
+        // DONE: Get the current time, pass that into the stopwatch.timeConverter function,
+        //       and save the result in a variable.
+        var converted = gameWatch.timeConverter(gameWatch.time);
+        console.log(converted);
+
+        // DONE: Use the variable we just created to show the converted time in the "display" div.
+        $("#timer").text(converted);
+    },
+    timeConverter: function (t) {
+
+        var minutes = Math.floor(t / 60);
+        var seconds = t - (minutes * 60);
+
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+
+        if (minutes === 0) {
+            minutes = "00";
+        } else if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+
+        return minutes + ":" + seconds;
+    }
+}
+
+
 
 displayQuestions = function () {
 
+    //Adds copy "Time till killed:" to html and "00:30" to the clock
+    aboveCopy.text("Time till killed: ");
+    gameWatch.reset();
+    
 
     //Creates a new variable to target the question
     var newQ = [questionsList[counter].question];
@@ -73,13 +148,42 @@ displayQuestions = function () {
         var button = $('<button>');
         button.text(choicesArr[i]);
         button.attr('data-id', i);
-        button.addClass('btn-danger');
+        button.addClass('btn-outline-danger btn-lg btn-block');
         choicesDiv.append(newDiv);
         choicesDiv.append(button);
 
     }
+
+    gameWatch.start();
+
+    if (gameWatch.time <= 0) {
+        gameWatch.stop();
+        counter++;
+        questionsList();
+    };
 }
 
+
+/*
+    //Function to register user choice during trivia game
+    choicesDiv.on('click', 'button', function (e) {
+        var userSelection = $(this).data("id"),
+            //th = Trivia || $(window).questionsList(),
+            index = questionsList[current].correct,
+            correct = questionsList[current].choices[index];
+
+        if (userSelection !== index) {
+            choicesDiv.text("Wrong Answer! The correct answer was: " + correct);
+            answer(false);
+        } else {
+            choicesDiv.text("Correct!!! The correct answer was: " + correct);
+            answer(true);
+        }
+        //nextQuestion();
+    });
+
+
+*/
 
 
 //Need to hear start button click to start game.
