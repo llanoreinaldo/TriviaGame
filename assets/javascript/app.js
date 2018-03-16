@@ -1,4 +1,3 @@
-
 //Sets Trivia Game Function 
 $.fn.trivia = function () {
     
@@ -140,17 +139,3 @@ $('#choices_div').on('click', 'button', function (e) {
     }
     th.nextQuestion();
 });
-
-
-
-//FOR DEVELOPING A MULTI-THEMED GAME
-//Audio Files
-//  oneAudio = new Audio('assets/sounds/fridaythe13th.mp3'),
-//   twoAudio = new Audio('assets/sounds/Jaws-theme-song.mp3'),
-// threeAudio = new Audio('assets/sounds/Halloween Theme.mp3'),
-//   backImg = ["background1", "background2", "background3"],
-// themeSong = ["fridaythe13th", "jaws-theme-song", "Halloween Theme"];
-
-//DOM Declations for hooking into
-// var DOMthemesong = document.getElementById('themesong'),
-//     DOMbackImg = document.getElementById('backgroundImg');

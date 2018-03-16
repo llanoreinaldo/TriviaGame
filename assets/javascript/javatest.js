@@ -111,7 +111,7 @@ var Trivia;
 $("#start_button").click(function () {
     $(this).hide();
     $('.result').remove();
-    $('div').html('');
+    $('#gameDiv').html('');
     Trivia = new $(window).trivia();
     Trivia.ask();
 });

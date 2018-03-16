@@ -52,7 +52,7 @@ footer {
     border-radius: 75%;
 }
 
-#display {
+.timerdisplay {
     float: center;
     font-family: 'bangers', cursive;
     font-size: 30px;
@@ -63,29 +63,38 @@ footer {
     background: white;
 }
 
+.display2 {
+    font-family: 'bangers', cursive;
+    font-size: 24px;
+    color: red;
+    /* Typography */
+    text-align: left;
+}
+
 #wrapper {
     /* Box-model */
     width: 400px;
     /* Typography */
-    text-align: left;
+    text-align: center;
     /* Positioning */
     margin: 50px auto 0;
-    font-size: 24px;
+    font-size: 44px;
     color: red;
-}
-
-.qBox {
-    color: red;
-    font-family: 'bangers', cursive;
-    font-size: 30px;
-    text-align: center;
+     /* Visual */
+     background: white;
 }
 
 div {
     margin-bottom: 20px;
 }
 
+.button {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .correct,
 .incorrect {
     text-transform: capitalize;
 }
+
