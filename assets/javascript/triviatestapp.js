@@ -42,10 +42,6 @@ var questionsList = [{
     }
 ];
 
-startGame.click(function () {
-    $(this).hide();
-    displayQuestions();
-});
 
 // GAMEWATCH ACTIVITY (SOLUTION)
 // =============================
@@ -77,7 +73,6 @@ var gameWatch = {
             clockRunning = true;
         }
     },
-
     stop: function () {
 
         // Uses clearInterval to stop the count here and set the clock to not be running.
@@ -116,14 +111,117 @@ var gameWatch = {
     }
 }
 
+//GAME QUESTION LOGIC
+//===========================
 
 
+askQuestion = function () {
+
+    if (questionsList[counter]) {
+
+        //Adds copy "Time till killed:" to html and "00:30" to the clock
+        aboveCopy.text("Time till killed: ");
+        gameWatch.reset();
+
+
+        //Creates a new variable to target the question
+        var newQ = [questionsList[counter].question];
+
+        //This creates the new div for the targeted question and add the content in the same line    
+        var newQuestionDiv = $("<div>" + newQ + "</div>");
+
+        //This adds "display" as a class attribute to the Question div's
+        questionsDiv.addClass('display2')
+
+        //This adds the placeholder div to the main div on the page ("#question-div")
+        questionsDiv.append(newQuestionDiv);
+
+        //This sets up an array for the choices in the selected question        
+        var choicesArr = questionsList[counter].choices;
+
+        //Creates a button array to deposit each newly created button.
+        var buttonsArr = [];
+
+        for (var i = 0; i < choicesArr.length; i++) {
+            var newDiv = $('<div>')
+            var button = $('<button>');
+            button.text(choicesArr[i]);
+            button.attr('data-id', i);
+            button.addClass('btn-outline-danger btn-lg btn-block');
+            choicesDiv.append(newDiv);
+            choicesDiv.append(button);
+
+        }
+        gameWatch.start();
+
+    }
+    //Sets logic for when correct answer is picked
+    var correct = questionsList[counter].correct;  
+
+    answer = function (correct) {
+        var string = correct ? 'correct' : 'choicesArr';
+        answers[string]++;
+        $('.' + string).html(string + ' answers: ' + answers[string]);
+    };
+    return;
+}
+
+
+
+
+if (gameWatch.count <= 0) {
+    gameWatch.stop();
+    counter++;
+    questionsList();
+};
+
+
+var Trivia;
+
+startGame.click(function () {
+    $(this).hide();
+    //    $(".result").remove();
+    // $('div').html('');
+    askQuestion();
+
+});
+
+
+
+/*
+
+
+} else {
+        $('body').append($('<div />', {
+            text: 'Unanswered: ' + (
+                questions.length - (answer.correct + answers.incorrect)),
+            class: 'result'
+        }));
+        $('start_button').text('Restart').appendTo('body').show();
+    }
+
+    //Function to register user choice during trivia game
+    choicesDiv.on('click', 'button', function (e) {
+        var userSelection = $(this).data("id"),
+            //th = Trivia || $(window).questionsList(),
+            index = questionsList[current].correct,
+            correct = questionsList[current].choices[index];
+
+        if (userSelection !== index) {
+            choicesDiv.text("Wrong Answer! The correct answer was: " + correct);
+            answer(false);
+        } else {
+            choicesDiv.text("Correct!!! The correct answer was: " + correct);
+            answer(true);
+        }
+        //nextQuestion();
+    });
 displayQuestions = function () {
 
     //Adds copy "Time till killed:" to html and "00:30" to the clock
     aboveCopy.text("Time till killed: ");
     gameWatch.reset();
-    
+
 
     //Creates a new variable to target the question
     var newQ = [questionsList[counter].question];
@@ -154,33 +252,11 @@ displayQuestions = function () {
 
     }
 
+
+
     gameWatch.start();
 
-    if (gameWatch.time <= 0) {
-        gameWatch.stop();
-        counter++;
-        questionsList();
-    };
-}
-
-
-/*
-    //Function to register user choice during trivia game
-    choicesDiv.on('click', 'button', function (e) {
-        var userSelection = $(this).data("id"),
-            //th = Trivia || $(window).questionsList(),
-            index = questionsList[current].correct,
-            correct = questionsList[current].choices[index];
-
-        if (userSelection !== index) {
-            choicesDiv.text("Wrong Answer! The correct answer was: " + correct);
-            answer(false);
-        } else {
-            choicesDiv.text("Correct!!! The correct answer was: " + correct);
-            answer(true);
-        }
-        //nextQuestion();
-    });
+};
 
 
 */
