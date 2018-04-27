@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     //Create a function, generateHTML(), that is triggered by the start button, and generates the HTML seen on the project video...
 
-    $("body").on("click", ".start_button", function (event) {
+    $("body").on("click touchstart", ".start_button", function (event) {
         event.preventDefault(); // added line to test issue on GitHub Viewer
         themeSound.play();
         generateHTML();
@@ -18,7 +18,7 @@ $(document).ready(function () {
 
     }); // Closes start-button click
 
-    $("body").on("click", ".answer", function (event) {
+    $("body").on("click touchstart", ".answer", function (event) {
         //answeredQuestion = true;
         selectedAnswer = $(this).text();
         if (selectedAnswer === correctAnswers[questionCounter]) {
@@ -35,7 +35,7 @@ $(document).ready(function () {
         }
     }); // Close .answer click
 
-    $("body").on("click", ".reset-button", function (event) {
+    $("body").on("click touchstart", ".reset-button", function (event) {
         themeSound.play();
         resetGame();
     }); // Closes reset-button click
